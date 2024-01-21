@@ -9,7 +9,7 @@ def create_tensor_of_val(dimensions, val):
     specifically, it should be:
     tensor([[3., 3., 3.], [3., 3., 3.]])
     """
-    res = None  # TODO: implement this function 
+    res = torch.full(dimensions, val)  # TODO: implement this function 
     return res
 
 def calculate_elementwise_product(A, B):
@@ -17,7 +17,7 @@ def calculate_elementwise_product(A, B):
     Calculate the elementwise product of the two tensors A and B.
     Note that the dimensions of A and B should be the same.
     """
-    res = None  # TODO: implement this function 
+    res = torch.mul(A, B)  # TODO: implement this function 
     return res 
 
 
@@ -32,7 +32,7 @@ def calculate_matrix_product(X, W):
           Also, it allows us to use the same function for a single neuron or multiple neurons.
          
     """
-    res = None  # TODO: implement this function 
+    res = torch.matmul(X, W.t())  # TODO: implement this function 
     return res
 
 def calculate_matrix_prod_with_bias(X, W, b):
@@ -45,7 +45,9 @@ def calculate_matrix_prod_with_bias(X, W, b):
           This allows us to use a batch of inputs, and not just a single input.
           Also, it allows us to use the same function for a single neuron or multiple neurons.
        """
-    res = None  # TODO: implement this function 
+
+    
+    res = torch.matmul(X, W.t()) + b  # TODO: implement this function 
     return res
 
 def calculate_activation(sum_total):
@@ -53,7 +55,11 @@ def calculate_activation(sum_total):
     Calculate a step function as an activation of the neuron.
     Hint: use PyTorch `heaviside` function.
     """
-    res = None  # TODO: implement this function 
+    if not isinstance(sum_total, torch.Tensor):
+        sum_total = torch.tensor(sum_total)
+    threshold = 0.0
+    values = sum_total - threshold
+    res = torch.heaviside(values, torch.tensor(0.0).to(values))  # TODO: implement this function 
     return res
 
 def calculate_output(X, W, b):
@@ -61,5 +67,5 @@ def calculate_output(X, W, b):
     Calculate the output of the neuron.
     Hint: use the functions you implemented above.
     """
-    res = None  # TODO: implement this function 
+    res = calculate_activation(calculate_matrix_prod_with_bias(X, W, b))  # TODO: implement this function 
     return res
